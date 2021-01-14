@@ -2,7 +2,7 @@
 #include "ui_widget.h"
 #include <QDebug>
 
-#define Threshold 160
+#define Threshold 110
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -22,7 +22,7 @@ Widget::~Widget()
 
 void Widget::on_pushButton_open_pic_clicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this,"选择图片","","*.jpg *.png *bmp *.jpeg");
+    QString filename = QFileDialog::getOpenFileName(this,"选择图片","","*.jpg *.png *bmp *.jpeg *.jfif");
     if(filename.isEmpty())
     {
         return;
@@ -84,7 +84,9 @@ QImage *Widget::Binary(QImage *img)
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();
-    chart->setTitle("纵向灰度直方图");
+    chart->setTitle("纵向灰度统计图");
+    chart->axisX()->setTitleText("像素位置");
+    chart->axisY()->setTitleText("亮点个数");
     chart->setMargins(QMargins(0,0,0,0));
 
     QChartView *chartView = new QChartView(chart);
@@ -123,7 +125,8 @@ void Widget::Split(QImage *img)
     {
         imglist.append(img->copy(startArray.at(k),0,endArray.at(k)-startArray.at(k)+1,img->height()));
     }
-    imglist.at(1).save("D:/F.jpg");
+//    imglist[7].save("D:/0.jpg");
+//    imglist[6].save("D:/J.jpg");
 //    ui->label->setPixmap(QPixmap::fromImage(imglist.at(0)).scaled(ui->label->size()));
 //    ui->label_2->setPixmap(QPixmap::fromImage(imglist.at(1)).scaled(ui->label->size()));
 //    ui->label_3->setPixmap(QPixmap::fromImage(imglist.at(2)).scaled(ui->label->size()));
@@ -158,11 +161,11 @@ void Widget::Match()
 
         QDir templateDir;
         if(n==0)
-            templateDir.setPath("D:/temp/Location");
+            templateDir.setPath("D:/QtCode/OCR/temp/Location");
         else if(n==1)
-            templateDir.setPath("D:/temp/Letter");
+            templateDir.setPath("D:/QtCode/OCR/temp/Letter");
         else
-            templateDir.setPath("D:/temp/Nb&Letter");
+            templateDir.setPath("D:/QtCode/OCR/temp/Nb&Letter");
 
 
         QStringList theDirFilter;
